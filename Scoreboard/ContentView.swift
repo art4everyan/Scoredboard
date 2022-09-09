@@ -12,29 +12,24 @@ struct ContentView: View {
     @EnvironmentObject var model: ViewModel
     @EnvironmentObject var model2: ViewModel2
     
-    var body: some View {
-        List {
-            HStack {
-                // UI logic in vm
-                Button { } label: { Text("vm color").font(.title) }
-                .tint(model2.vmColor)
-                .onTapGesture { model2.vmColorChange() }
-                
-                Button { } label: { Text("vm color").font(.title) }
-                .tint(model2.vmColor2)
-                .onTapGesture { model2.vmColorChange() }
-        
-                
-                // UI logic in View
-                Button { } label: { Text("view color").font(.title) }
-                .tint((model.viewIsColored) ? .red : .gray)
-                .onTapGesture { model.countBump() }
+    @State private var color: Color = .gray
 
-                Button { } label: { Text("view color").font(.title) }
-                .tint((model.viewIsColored) ? .blue : .gray)
-                .onTapGesture { model.countBump() }
-            }
+    var body: some View {
+        HStack {
+            // UI logic in vm
+            Button { model2.vmColorChange() } label: { Text("vm color").font(.title) }
+            .tint(model2.vmColor)
+            
+            
+            // UI logic in View
+            Button {model.countBump() } label: { Text("view color").font(.title) }
+                .tint(color)
+                .onReceive(model.viewIsColored, perform: update)
         }
+    }
+    
+    private func update(val: Bool) {
+        color = (val) ? .red : .gray
     }
 }
 

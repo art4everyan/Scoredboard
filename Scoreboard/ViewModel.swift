@@ -9,20 +9,17 @@ import Combine
 import SwiftUI 
 
 class ViewModel: ObservableObject {
-    private(set) var viewIsColored = false
+    private(set) var viewIsColored = CurrentValueSubject<Bool, Never>(false)
     
-    func countBump() { viewIsColored.toggle() }
+    func countBump() { viewIsColored.value.toggle() }
 }
 
 class ViewModel2: ObservableObject {
-    private(set) var isColored: Bool = false
-    
+    private(set) var isColored = CurrentValueSubject<Bool, Never>(false)
     @Published var vmColor: Color = .gray
-    @Published var vmColor2: Color = .gray
     
     func vmColorChange() {
-        isColored.toggle()
-        vmColor = (isColored) ? .red : .gray
-        vmColor2 = (isColored) ? .blue : .gray
+        isColored.value.toggle()
+        vmColor = (isColored.value) ? .red : .gray
     }
 }
