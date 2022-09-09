@@ -24,12 +24,8 @@ struct ContentView: View {
             // UI logic in View
             Button {model.countBump() } label: { Text("view color").font(.title) }
                 .tint(color)
-                .onReceive(model.viewIsColored, perform: update)
+                .onReceive(model.viewIsColored, perform: { color = ($0) ? .red : .gray })
         }
-    }
-    
-    private func update(val: Bool) {
-        color = (val) ? .red : .gray
     }
 }
 
