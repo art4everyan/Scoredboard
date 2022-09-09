@@ -16,10 +16,10 @@ class ViewModel: ObservableObject {
 
 class ViewModel2: ObservableObject {
     private(set) var isColored = CurrentValueSubject<Bool, Never>(false)
+    private var subscriptions = Set<AnyCancellable>()
     @Published var vmColor: Color = .gray
     
-    func vmColorChange() {
-        isColored.value.toggle()
-        vmColor = (isColored.value) ? .red : .gray
+    func bind() {
+        isColored.sink(receiveValue: { self.vmColor = ($0) ? .blue : .gray }).store(in: &subscriptions)
     }
 }

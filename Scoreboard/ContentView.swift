@@ -15,17 +15,24 @@ struct ContentView: View {
     @State private var color: Color = .gray
 
     var body: some View {
-        HStack {
+        VStack {
             // UI logic in vm
-            Button { model2.vmColorChange() } label: { Text("vm color").font(.title) }
+            Button {
+                model2.isColored.value.toggle()
+                model2.bind()
+            } label: { Text("vm color").font(.title) }
             .tint(model2.vmColor)
-            
-            
+               
             // UI logic in View
-            Button {model.countBump() } label: { Text("view color").font(.title) }
+            Button { model.viewIsColored.value.toggle() } label: { Text("view color").font(.title) }
                 .tint(color)
                 .onReceive(model.viewIsColored, perform: { color = ($0) ? .red : .gray })
         }
+    }
+    
+    private func test() {
+        model.viewIsColored.value.toggle()
+        model2.isColored.value.toggle()
     }
 }
 
