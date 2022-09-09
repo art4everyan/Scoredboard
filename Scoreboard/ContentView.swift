@@ -29,11 +29,6 @@ struct ContentView: View {
                 .onReceive(model.viewIsColored, perform: { color = ($0) ? .red : .gray })
         }
     }
-    
-    private func test() {
-        model.viewIsColored.value.toggle()
-        model2.isColored.value.toggle()
-    }
 }
 
 struct ContentView_Previews: PreviewProvider {
