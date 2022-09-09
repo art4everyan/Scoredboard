@@ -12,9 +12,6 @@ struct ContentView: View {
     @EnvironmentObject var model: ViewModel
     @EnvironmentObject var model2: ViewModel2
     
-    @State private(set) var viewColor: Color = .gray 
-    @State private(set) var viewColor2: Color = .gray
-    
     var body: some View {
         List {
             HStack {
@@ -30,21 +27,14 @@ struct ContentView: View {
                 
                 // UI logic in View
                 Button { } label: { Text("view color").font(.title) }
-                .tint(viewColor)
+                .tint((model.viewIsColored) ? .red : .gray)
                 .onTapGesture { model.countBump() }
-                .onReceive(model.viewIsColored, perform: updateCountButtonTitle) // subscribed to bool
-                
+
                 Button { } label: { Text("view color").font(.title) }
-                .tint(viewColor2)
+                .tint((model.viewIsColored) ? .blue : .gray)
                 .onTapGesture { model.countBump() }
-                .onReceive(model.viewIsColored, perform: updateCountButtonTitle) // subscribed to bool
             }
         }
-    }
-    
-    private func updateCountButtonTitle(bool: Bool) {
-        viewColor = (bool) ? .red : .gray
-        viewColor2 = (bool) ? .blue : .gray
     }
 }
 
@@ -53,6 +43,3 @@ struct ContentView_Previews: PreviewProvider {
         ContentView()
     }
 }
-
-// view line = 15 + 5
-// vm line = 7 + 16
